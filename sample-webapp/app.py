@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright 2015 Google Inc. All rights reserved.
 #
@@ -45,3 +45,4 @@ app = webapp2.WSGIApplication([
     (r'/login', LoginHandler),
     (r'/metrics', MetricsHandler),
 ])
+

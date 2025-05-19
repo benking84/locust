@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright 2015 Google Inc. All rights reserved.
 #
@@ -18,7 +18,7 @@
 import uuid
 
 from datetime import datetime
-from locust import HttpLocust, TaskSet, task
+from locust import HttpUser, TaskSet, task
 
 
 class MetricsTaskSet(TaskSet):
@@ -38,5 +38,5 @@ class MetricsTaskSet(TaskSet):
             "/metrics", {"deviceid": self._deviceid, "timestamp": datetime.now()})
 
 
-class MetricsLocust(HttpLocust):
+class MetricsLocust(HttpUser):
     task_set = MetricsTaskSet

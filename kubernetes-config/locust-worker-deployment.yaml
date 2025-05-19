@@ -13,8 +13,8 @@
 # limitations under the License.
 
 
-kind: ReplicationController
-apiVersion: v1
+kind: Deployment
+apiVersion: apps/v1
 metadata:
   name: locust-worker
   labels:
@@ -23,8 +23,9 @@ metadata:
 spec:
   replicas: 10
   selector:
-    name: locust
-    role: worker
+    matchLabels:
+      name: locust
+      role: worker
   template:
     metadata:
       labels:

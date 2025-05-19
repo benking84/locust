@@ -13,8 +13,8 @@
 # limitations under the License.
 
 
-# Start with a base Python 2.7.8 image
-FROM python:2.7.8
+# Start with a base Python 3.11 image
+FROM python:3.11-slim
 
 MAINTAINER Sandeep Parikh <parikhs@google.com>
 
@@ -24,8 +24,13 @@ ADD licenses /licenses
 # Add the external tasks directory into /tasks
 ADD locust-tasks /locust-tasks
 
-# Install the required dependencies via pip
-RUN pip install -r /locust-tasks/requirements.txt
+# Install build dependencies, then Python packages, then remove build dependencies
+RUN apt-get clean && \
+    (apt-get update -o Acquire::Check-Valid-Until=false --allow-releaseinfo-change || true) && \
+    apt-get install -y --no-install-recommends build-essential python3-dev && \
+    pip install --no-cache-dir -r /locust-tasks/requirements.txt && \
+    apt-get purge -y --auto-remove build-essential python3-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 # Expose the required Locust ports
 EXPOSE 5557 5558 8089
